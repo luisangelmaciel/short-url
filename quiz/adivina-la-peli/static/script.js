@@ -90,24 +90,16 @@ const questions = [{
     },
     {
         quest: "🧙⚡",
-        options: ["Up", "Titanic", "Cenicienta"],
-        correct: "Harry Potter "
-    },
-    {
-        quest: "🐇⌚",
         options: ["Harry Potter", "Titanic", "Cenicienta"],
         correct: "Harry Potter "
     },
+
     {
         quest: "💎❄️",
         options: ["Harry Potter", "Titanic", "Cenicienta"],
-        correct: "Titanic "
+        correct: "Frozen"
     },
-    {
-        quest: "🐇⌚",
-        options: ["Harry Potter", "Titanic", "Cenicienta"],
-        correct: "Cenicienta "
-    },
+
     {
         quest: "✂️",
         options: ["Enredados", "El aro", "Guerra Mundial Z"],
@@ -118,15 +110,11 @@ const questions = [{
         options: ["Enredados", "El aro", "Guerra Mundial Z"],
         correct: "El aro "
     },
+
     {
-        quest: "🐇⌚",
-        options: ["Enredados", "El aro", "Guerra Mundial Z"],
-        correct: "Guerra Mundial Z"
-    },
-    {
-        quest: "🐇☢️🕛",
+        quest: "💀🧑‍🦯🎻",
         options: ["Coco ", "El aro", "Guerra Mundial Z"],
-        correct: "Coco 💀🧑‍🦯🎻 "
+        correct: "🦒🦓🐘🦛🐃🐾⛰️👑 Rey León 😤💪🏻🤢 Hulk 💏🧕🏻👱🏻‍♀️🏯 Enredados 🔥🦅 🧣✨ Los secretos de Dumbledore 🦔🦄👞💼 Animales Fantasticos 👬🐆☀️🏹 El camino hacia el Dorado 🤓👒🌊💠🔅 Atlantis ✌🏻🧝🏼‍♂️🐉🈶🥦Dragon Ball: Broly ⚡🌪️🐴💪🏻💑 Hercules        "
     }
 ];
 
