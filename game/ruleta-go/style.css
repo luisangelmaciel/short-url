@@ -1,205 +1,214 @@
-@import url("https://fonts.googleapis.com/css2?family=Girassol&display=swap");
-
+@charset "UTF-8";
+@keyframes shiny {
+  0% {
+    fill: white;
+  }
+  50% {
+    fill: #ffc242;
+  }
+  100% {
+    fill: white;
+  }
+}
+@keyframes go {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
 * {
-  box-sizing: border-box;
-}
-
-html,
-body {
-  height: 100%;
+  padding: 0;
+  margin: 0;
+  font-family: "微軟正黑體";
 }
 
 body {
-  display: grid;
-  place-items: center;
+  background-color: #3DBFBB;
+}
+
+.container {
+  max-width: 1000px;
+  min-width: 400px;
+  margin: 0 auto;
   overflow: hidden;
 }
 
-.deal-wheel {
-  --size: clamp(250px, 80vmin, 700px);
-  --lg-hs: 0 3%;
-  --lg-stop: 50%;
-  --lg: linear-gradient(
-      hsl(var(--lg-hs) 0%) 0 var(--lg-stop),
-      hsl(var(--lg-hs) 20%) var(--lg-stop) 100%
-    );
-  
+header {
+  text-align: center;
+  padding: 50px;
+}
+
+section.turntable {
   position: relative;
-  display: grid;
-  grid-gap: calc(var(--size) / 20);
-  align-items: center;
-  grid-template-areas:
-    "spinner"
-    "trigger";
-  font-family: "Girassol", sans-serif;
-  font-size: calc(var(--size) / 21);
-  line-height: 1;
-  text-transform: lowercase;
+  max-width: 1000px;
+  max-height: 1000px;
 }
-
-.deal-wheel > * {
-  grid-area: spinner;
-}
-
-.deal-wheel .btn-spin {
-  grid-area: trigger;
-  justify-self: center;
-}
-
-.spinner {
-  position: relative;
-  display: grid;
-  align-items: center;
-  grid-template-areas: "spinner";
-  width: var(--size);
-  height: var(--size);
-  transform: rotate(calc(var(--rotate, 25) * 1deg));
-  border-radius: 50%;
-  box-shadow: inset 0 0 0 calc(var(--size) / 40) hsl(0deg 0% 0% / 0.06);
-}
-
-.spinner * {
-  grid-area: spinner;
-}
-
-.prize {
-  position: relative;
-  display: flex;
-  align-items: center;
-  padding: 0 calc(var(--size) / 6) 0 calc(var(--size) / 20);
-  width: 50%;
-  height: 50%;
-  transform-origin: center right;
-  transform: rotate(var(--rotate));
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
-}
-
-.cap {
-  --cap-size: calc(var(--size) / 4);
-  position: relative;
-  justify-self: center;
-  width: var(--cap-size);
-  height: var(--cap-size);
-}
-
-/* Hide select dropdown from SVG import file */
-.cap select {
-  display: none;
-}
-
-.cap svg {
-  width: 100%;
-}
-
-.ticker {
-  position: relative;
-  left: calc(var(--size) / -15);
-  width: calc(var(--size) / 10);
-  height: calc(var(--size) / 20);
-  background: var(--lg);
-  z-index: 1;
-  -webkit-clip-path: polygon(20% 0, 100% 50%, 20% 100%, 0% 50%);
-          clip-path: polygon(20% 0, 100% 50%, 20% 100%, 0% 50%);
-  transform-origin: center left;
-}
-
-.btn-spin {
-  color: hsl(0deg 0% 100%);
-  background: var(--lg);
+section.turntable button.turntable_btn {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: none;
   border: none;
-  font-family: inherit;
-  font-size: inherit;
-  line-height: inherit;
-  text-transform: inherit;
-  padding: 0.9rem 2rem 1rem;
-  border-radius: 0.25rem;
+  outline: none;
+  font-weight: 900;
+  width: 30%;
+  height: 30%;
+  border-radius: 50%;
+  font-size: 70px;
+  color: #0080C0;
+  background-color: #ffb929;
   cursor: pointer;
-  transition: opacity 200ms ease-out;
 }
-
-.btn-spin:focus {
-  outline-offset: 2px;
+section.turntable button.turntable_btn:active, section.turntable button.turntable_btn:disabled {
+  cursor: default;
 }
-
-.btn-spin:active {
-  transform: translateY(1px);
+section.turntable button.turntable_btn:active::after, section.turntable button.turntable_btn:disabled::after {
+  box-shadow: none;
+  margin-top: 2px;
+  background-color: #ffda8f;
 }
-
-.btn-spin:disabled {
-  cursor: progress;
-  opacity: 0.25;
+section.turntable button.turntable_btn::after {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  content: "";
+  width: 80%;
+  height: 80%;
+  border-radius: 50%;
+  background-color: #ffe3a8;
+  z-index: -1;
+  box-shadow: 1px 2px 4px #754f00;
 }
-
-/* Spinning animation */
-.is-spinning .spinner {
-  transition: transform 8s cubic-bezier(0.1, -0.01, 0, 1);
-}
-
-.is-spinning .ticker {
-  -webkit-animation: tick 700ms cubic-bezier(0.34, 1.56, 0.64, 1);
-          animation: tick 700ms cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-@-webkit-keyframes tick {
-  40% {
-    transform: rotate(-12deg);
+@media screen and (max-width: 767px) {
+  section.turntable button.turntable_btn {
+    font-size: 42px;
   }
 }
-
-@keyframes tick {
-  40% {
-    transform: rotate(-12deg);
+section.turntable div.list {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: none;
+}
+section.turntable div.list {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  width: 70%;
+  height: 70%;
+  text-align: center;
+}
+section.turntable div.list ul {
+  list-style: none;
+  width: 100%;
+  height: 100%;
+  transform: rotate(0deg);
+}
+section.turntable div.list ul.go {
+  animation: go 0.8s linear 4;
+  -webkit-animation: go 0.8s linear 4;
+}
+section.turntable div.list ul li {
+  color: #fff;
+  font-size: 22.4px;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+section.turntable div.list ul li:nth-child(2) {
+  transform: rotate(315deg);
+}
+section.turntable div.list ul li:nth-child(3) {
+  transform: rotate(270deg);
+}
+section.turntable div.list ul li:nth-child(4) {
+  transform: rotate(225deg);
+}
+section.turntable div.list ul li:nth-child(5) {
+  transform: rotate(180deg);
+}
+section.turntable div.list ul li:nth-child(6) {
+  transform: rotate(135deg);
+}
+section.turntable div.list ul li:nth-child(7) {
+  transform: rotate(90deg);
+}
+section.turntable div.list ul li:nth-child(8) {
+  transform: rotate(45deg);
+}
+@media screen and (max-width: 767px) {
+  section.turntable div.list ul li {
+    font-size: 14px;
   }
 }
-
-/* Selected prize animation */
-.prize.selected .text {
-  color: white;
-  -webkit-animation: selected 800ms ease;
-          animation: selected 800ms ease;
+section.turntable div.list ul li img {
+  width: 70px;
+  margin-top: 5px;
 }
-
-@-webkit-keyframes selected {
-  25% {
-    transform: scale(1.25);
-    text-shadow: 1vmin 1vmin 0 hsla(0 0% 0% / 0.1);
-  }
-  40% {
-    transform: scale(0.92);
-    text-shadow: 0 0 0 hsla(0 0% 0% / 0.2);
-  }
-  60% {
-    transform: scale(1.02);
-    text-shadow: 0.5vmin 0.5vmin 0 hsla(0 0% 0% / 0.1);
-  }
-  75% {
-    transform: scale(0.98);
-  }
-  85% {
-    transform: scale(1);
+@media screen and (max-width: 767px) {
+  section.turntable div.list ul li img {
+    width: 40px;
   }
 }
-
-@keyframes selected {
-  25% {
-    transform: scale(1.25);
-    text-shadow: 1vmin 1vmin 0 hsla(0 0% 0% / 0.1);
+@media screen and (max-width: 400px) {
+  section.turntable div.list ul li img {
+    display: none;
   }
-  40% {
-    transform: scale(0.92);
-    text-shadow: 0 0 0 hsla(0 0% 0% / 0.2);
-  }
-  60% {
-    transform: scale(1.02);
-    text-shadow: 0.5vmin 0.5vmin 0 hsla(0 0% 0% / 0.1);
-  }
-  75% {
-    transform: scale(0.98);
-  }
-  85% {
-    transform: scale(1);
-  }
+}
+section.turntable svg > circle {
+  fill: none;
+  stroke: #006fa7;
+  stroke-width: 5px;
+}
+section.turntable svg g.polyline.go {
+  animation: go 0.8s linear 4;
+  -webkit-animation: go 0.8s linear 4;
+}
+section.turntable svg g.polyline polyline {
+  fill: #0080C0;
+}
+section.turntable svg g.polyline polyline:nth-child(odd) {
+  fill: #00a2f3;
+}
+section.turntable svg g.circle circle {
+  fill: #fff;
+  stroke: none;
+  box-shadow: 0px 2px 5px #ccc;
+}
+section.turntable svg g.circle circle:nth-child(odd) {
+  animation: shiny 0.8s linear infinite;
+  -webkit-animation: shiny 0.8s linear infinite;
+}
+section.turntable svg g.circle circle:nth-child(odd).go {
+  animation: go 0.8s linear 4, shiny 0.8s linear infinite;
+  -webkit-animation: go 0.8s linear 4, shiny 0.8s linear infinite;
+}
+section.turntable svg g.circle circle:nth-child(even) {
+  animation: shiny 0.8s 0.5s linear infinite;
+  -webkit-animation: shiny 0.8s 0.5s linear infinite;
+}
+section.turntable svg g.circle circle:nth-child(even).go {
+  animation: go 0.8s 0.8s linear 4, shiny 0.8s 0.5s linear infinite;
+  -webkit-animation: go 0.8s linear 4, shiny 0.8s 0.5s linear infinite;
+}
+section.turntable svg g.mark circle {
+  fill: #FFB10F;
+}
+section.turntable svg g.mark circle.round {
+  fill: none;
+  stroke: #ffebc2;
+}
+section.turntable svg g.mark polyline {
+  fill: #FFB10F;
+  stroke: none;
+}
+section.turntable svg g.bottom {
+  fill: rgba(0, 0, 0, 0.4);
 }

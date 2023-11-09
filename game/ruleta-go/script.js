@@ -1,160 +1,118 @@
-/**
- * Prize data will space out evenly on the deal wheel based on the amount of items available.
- * @param text [string] name of the prize
- * @param color [string] background color of the prize
- * @param reaction ['resting' | 'dancing' | 'laughing' | 'shocked'] Sets the reaper's animated reaction
- */
-const prizes = [{
-        text: "Ciudad",
-        color: "hsl(197 30% 43%)",
-        reaction: "dancing"
+//獎品項目
+var prize_list = [{
+        name: "Acapulco",
+        img: "https://www.luisangelmaciel.one/img/lamp-1.svg"
     },
     {
-        text: "Energía",
-        color: "hsl(173 58% 39%)",
-        reaction: "shocked"
+        name: "Puerto<br/> Vallarta",
+        img: "https://www.luisangelmaciel.one/img/lamp-1.svg"
     },
     {
-        text: "Comida",
-        color: "hsl(43 74% 66%)",
-        reaction: "shocked"
+        name: "Zipolite<br/>",
+        img: "https://www.luisangelmaciel.one/img/lamp-1.svg"
     },
     {
-        text: "Población",
-        color: "hsl(27 87% 67%)",
-        reaction: "shocked"
+        name: "Tepoztlan",
+        img: "https://www.luisangelmaciel.one/img/lamp-1.svg"
     },
     {
-        text: "Planeta",
-        color: "hsl(12 76% 61%)",
-        reaction: "dancing"
+        name: "Veracruz",
+        img: "https://www.luisangelmaciel.one/img/lamp-1.svg"
     },
     {
-        text: "Eternal Damnation",
-        color: "hsl(350 60% 52%)",
-        reaction: "laughing"
+        name: "CDMX",
+        img: "https://www.luisangelmaciel.one/img/lamp-1.svg"
     },
     {
-        text: "Used Travel Mug",
-        color: "hsl(91 43% 54%)",
-        reaction: "laughing"
+        name: "Cancun",
+        img: "https://www.luisangelmaciel.one/img/lamp-1.svg"
     },
     {
-        text: "One Solid Hug",
-        color: "hsl(140 36% 74%)",
-        reaction: "dancing"
-    }
-];
+        name: "Campamento",
+        img: "https://www.luisangelmaciel.one/img/lamp-1.svg"
+    },
+]
 
-const wheel = document.querySelector(".deal-wheel");
-const spinner = wheel.querySelector(".spinner");
-const trigger = wheel.querySelector(".btn-spin");
-const ticker = wheel.querySelector(".ticker");
-const reaper = wheel.querySelector(".grim-reaper");
-const prizeSlice = 360 / prizes.length;
-const prizeOffset = Math.floor(180 / prizes.length);
-const spinClass = "is-spinning";
-const selectedClass = "selected";
-const spinnerStyles = window.getComputedStyle(spinner);
-let tickerAnim;
-let rotation = 0;
-let currentSlice = 0;
-let prizeNodes;
-
-const createPrizeNodes = () => {
-    prizes.forEach(({ text, color, reaction }, i) => {
-        const rotation = ((prizeSlice * i) * -1) - prizeOffset;
-
-        spinner.insertAdjacentHTML(
-            "beforeend",
-            `<li class="prize" data-reaction=${reaction} style="--rotate: ${rotation}deg">
-        <span class="text">${text}</span>
-      </li>`
-        );
-    });
-};
-
-const createConicGradient = () => {
-    spinner.setAttribute(
-        "style",
-        `background: conic-gradient(
-      from -90deg,
-      ${prizes
-        .map(({ color }, i) => `
-        $ { color }
-        0 $ {
-            (100 / prizes.length) * (prizes.length - i)
-        } % `)
-        .reverse()
-      }
-    );`
-    );
-};
+for (var i = 0; i <= 7; i++) {
+    $(".list ul").append("<li><p>" + prize_list[i].name + "</p><img src='" + prize_list[i].img + "'></li>");
+}
 
 
-const setupWheel = () => {
-    createConicGradient();
-    createPrizeNodes();
-    prizeNodes = wheel.querySelectorAll(".prize");
-};
+// 假設iEnd是請求獲得的獎品結果
+var iEnd = -1;
 
-const spinertia = (min, max) => {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-};
+$(".turntable_btn").on("click", function() {
 
-const runTickerAnimation = () => {
-    // https://css-tricks.com/get-value-of-css-rotation-through-javascript/
-    const values = spinnerStyles.transform.split("(")[1].split(")")[0].split(",");
-    const a = values[0];
-    const b = values[1];
-    let rad = Math.atan2(b, a);
+    var $this = $(this);
 
-    if (rad < 0) rad += (2 * Math.PI);
+    iEnd = Math.floor(Math.random() * 8);
+    console.log(iEnd);
+    var prize = $(".list").find("li").eq(iEnd).find("p").html();
+    // console.log(prize);
 
-    const angle = Math.round(rad * (180 / Math.PI));
-    const slice = Math.floor(angle / prizeSlice);
+    rotating();
+    //禁用
+    $this.attr("disabled", "disabled");
 
-    if (currentSlice !== slice) {
-        ticker.style.animation = "none";
-        setTimeout(() => ticker.style.animation = null, 10);
-        currentSlice = slice;
-    }
+    setTimeout(function() {
+        // 恢復按鈕
+        $this.removeAttr("disabled");
+        $(".list ul").removeClass("go");
+        $(".polyline").removeClass("go");
+        $(".circle circle").removeClass("go");
+        var prize = $(".list").find("li").eq(iEnd).find("p").html().replace("<br>", "");
+        // console.log(prize);
+        alert('Vamonos de viaje a' + prize + '!!');
+    }, 4200);
 
-    tickerAnim = requestAnimationFrame(runTickerAnimation);
-};
-
-const selectPrize = () => {
-    const selected = Math.floor(rotation / prizeSlice);
-    prizeNodes[selected].classList.add(selectedClass);
-    reaper.dataset.reaction = prizeNodes[selected].dataset.reaction;
-};
-
-trigger.addEventListener("click", () => {
-    if (reaper.dataset.reaction !== "resting") {
-        reaper.dataset.reaction = "resting";
-    }
-
-    trigger.disabled = true;
-    rotation = Math.floor(Math.random() * 360 + spinertia(2000, 5000));
-    prizeNodes.forEach((prize) => prize.classList.remove(selectedClass));
-    wheel.classList.add(spinClass);
-    spinner.style.setProperty("--rotate", rotation);
-    ticker.style.animation = "none";
-    runTickerAnimation();
 });
 
-spinner.addEventListener("transitionend", () => {
-    cancelAnimationFrame(tickerAnim);
-    trigger.disabled = false;
-    trigger.focus();
-    rotation %= 360;
-    selectPrize();
-    wheel.classList.remove(spinClass);
-    spinner.style.setProperty("--rotate", rotation);
-});
+function rotating() {
+    // console.log(iEnd);
+    $(".list ul").addClass("go");
+    $(".polyline").addClass("go");
+    $(".circle circle").addClass("go");
 
-setupWheel();
+    // var rotate = prize_list.attr("style");
+    // var rotate_split_1 = rotate.split(":");
+    // var rotate_split_2 = rotate_split_1[1].split("(");
+    // var rotate_split_3 = rotate_split_2[1].split("deg");
+    // //旋轉度
+    // var rotate_deg = rotate_split_3[0];
+    // // console.log(rotate_deg);
 
-setupWheel();
+    switch (iEnd) {
+        case 0:
+            $(".polyline").css("transform", "rotate(0deg)");
+            $(".list ul").css("transform", "rotate(0deg)");
+            break;
+        case 1:
+            $(".polyline").css("transform", "rotate(45deg)");
+            $(".list ul").css("transform", "rotate(45deg)");
+            break;
+        case 2:
+            $(".polyline").css("transform", "rotate(90deg)");
+            $(".list ul").css("transform", "rotate(90deg)");
+            break;
+        case 3:
+            $(".polyline").css("transform", "rotate(135deg)");
+            $(".list ul").css("transform", "rotate(135deg)");
+            break;
+        case 4:
+            $(".polyline").css("transform", "rotate(180deg)");
+            $(".list ul").css("transform", "rotate(180deg)");
+            break;
+        case 5:
+            $(".polyline").css("transform", "rotate(225deg)");
+            $(".list ul").css("transform", "rotate(225deg)");
+            break;
+        case 6:
+            $(".polyline").css("transform", "rotate(270deg)");
+            $(".list ul").css("transform", "rotate(270deg)");
+            break;
+        case 7:
+            $(".polyline").css("transform", "rotate(315deg)");
+            $(".list ul").css("transform", "rotate(315deg)");
+            break;
+    }
+}
