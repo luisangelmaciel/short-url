@@ -2,17 +2,29 @@
 <html lang="en" >
 <head>
   <meta charset="UTF-8">
-  <title>CodePen - CSS3 blur text effect</title>
-  <link rel="stylesheet" href="./style.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
+  <title>CSS3 blur text effect</title>
+<style>
+.blur-text {
+  font-size: 3em;
+  text-align: center;
+  color: transparent;
+  text-shadow: #111 0 0 8px;
+  transition: 0.5s;
+  font-family: HelveticaNeue;
+}
+.blur-text:hover {
+  color: #111;
+  text-shadow: none;
+}
+</style>
 
 </head>
 <body>
-<!-- partial:index.partial.html -->
-<h1>
+
+<h1 class="blur-text">
   CSS3 blur text effect
 </h1>
-<!-- partial -->
+
   
 </body>
 </html>

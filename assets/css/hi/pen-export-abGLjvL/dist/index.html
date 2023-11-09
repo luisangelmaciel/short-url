@@ -1,14 +1,59 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="es-MX" >
 <head>
   <meta charset="UTF-8">
-  <title>CodePen - A Pen by Luis Angel Maciel</title>
+  <title></title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
-<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.3/css/foundation.min.css'><link rel="stylesheet" href="./style.css">
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.3/css/foundation.min.css'>
+<style>.row-pic {
+  z-index: 1;
+  overflow: hidden;
+}
 
+.picture {
+  height: 200px;
+  width: 100%;
+  position: relative;
+  margin-bottom: 20px;
+}
+.picture:before {
+  background: aquamarine;
+  content: "";
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  transform: skewX(10deg);
+  transform-origin: 100% 100%;
+  opacity: 0.8;
+}
+
+.description {
+  background: gold;
+  margin-top: 20px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  margin-left: -40px;
+  position: relative;
+  z-index: 0;
+}
+.description:before {
+  position: absolute;
+  content: "";
+  height: 100%;
+  width: 100%;
+  background: gold;
+  z-index: -1;
+  transform: skewX(10deg);
+  transform-origin: 100% 100%;
+}
+.description p {
+  margin: 0;
+  padding: 50px;
+}</style>
 </head>
 <body>
-<!-- partial:index.partial.html -->
+
 <div class="grid-container">
   <div class="grid-x">
     <div class="cell small-4 row-pic">
